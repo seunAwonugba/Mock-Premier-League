@@ -50,7 +50,7 @@ User.init(
             primaryKey: true,
         },
         userId: {
-            type: DataTypes.STRING,
+            type: DataTypes.UUID,
             allowNull: false,
             defaultValue: () => uuidv4(),
         },

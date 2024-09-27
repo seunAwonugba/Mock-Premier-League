@@ -27,7 +27,7 @@ module.exports = {
                 type: DataTypes.INTEGER,
             },
             userId: {
-                type: DataTypes.STRING,
+                type: DataTypes.UUID,
                 allowNull: false,
                 defaultValue: () => uuidv4(),
             },

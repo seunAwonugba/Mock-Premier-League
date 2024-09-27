@@ -25,27 +25,26 @@ const port = Number(PORT);
 const host = String(HOST);
 const sessionSecret = String(SESSION_SECRET);
 const sessionName = String(SESSION_NAME);
-const redisClient = (0, redis_1.getRedisClient)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.set("trust proxy", 1); // trust first proxy
-// provides Redis session storage for Express
-const redisStore = new connect_redis_1.default({
-    client: redisClient,
-    prefix: "mock_pl:",
-});
-app.use((0, express_session_1.default)({
-    store: redisStore,
-    resave: false,
-    saveUninitialized: true,
-    name: sessionName,
-    secret: sessionSecret,
-}));
 const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield models_1.default.authenticate();
         console.log("⚡️[database]: Database connection has been established successfully.");
-        yield (0, redis_1.initializeRedisClient)();
+        const redisClient = yield (0, redis_1.initializeRedisClient)();
+        // provides Redis session storage for Express
+        const redisStore = new connect_redis_1.default({
+            client: redisClient,
+            prefix: "mock_pl:",
+        });
+        app.use((0, express_session_1.default)({
+            store: redisStore,
+            resave: false,
+            saveUninitialized: true,
+            name: sessionName,
+            secret: sessionSecret,
+        }));
         app.listen(port, host, () => {
             console.log(`⚡️[server]: Server is running at http://${host}:${port}`);
         });

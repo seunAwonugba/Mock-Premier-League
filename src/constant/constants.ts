@@ -10,7 +10,6 @@ export const UNIQUE_EMAIL_CODE = "unique_email";
 export const EMAIL_REQUIRED = "Email is required";
 export const EMAIL_NOT_NULL = "Email cannot be null";
 export const VALID_EMAIL = "Valid email required";
-
 export const FIRST_NAME_REQUIRED = "First name is required";
 export const FIRST_NAME_NOT_EMPTY = "First name cannot be empty";
 export const FIRST_NAME_NOT_NULL = "First name cannot be null";

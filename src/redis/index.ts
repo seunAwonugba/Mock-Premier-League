@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import { RedisClientType, createClient } from "redis";
 
-let client: RedisClientType;
+export let client: RedisClientType;
 
 export const initializeRedisClient = async () => {
     client = createClient({
@@ -17,11 +17,8 @@ export const initializeRedisClient = async () => {
         console.log(
             "⚡️[redis]: Redis connection has been established successfully."
         );
+        return client;
     } catch (error) {}
-};
-
-export const getRedisClient = () => {
-    return client;
 };
 
 export const isRedisWorking = () => {
@@ -46,7 +43,7 @@ export const setRedisCache = async (key: string, value: string) => {
     }
 };
 
-export const deleteRedisCache = async (key: string) => {
+export const deleteCache = async (key: string) => {
     if (isRedisWorking()) {
         try {
             return await client.del(key);

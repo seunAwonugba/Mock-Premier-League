@@ -24,7 +24,7 @@ module.exports = {
                     type: sequelize_1.DataTypes.INTEGER,
                 },
                 adminId: {
-                    type: sequelize_1.DataTypes.STRING,
+                    type: sequelize_1.DataTypes.UUID,
                     allowNull: false,
                     defaultValue: () => (0, uuid_1.v4)(),
                 },

@@ -53,7 +53,7 @@ Admin.init(
             primaryKey: true,
         },
         adminId: {
-            type: DataTypes.STRING,
+            type: DataTypes.UUID,
             allowNull: false,
             defaultValue: () => uuidv4(),
         },
