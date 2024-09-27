@@ -20,6 +20,10 @@ export const initializeRedisClient = async () => {
     } catch (error) {}
 };
 
+export const getRedisClient = () => {
+    return client;
+};
+
 export const isRedisWorking = () => {
     // verify wheter there is an active connection
     // to a Redis server or not
@@ -42,7 +46,7 @@ export const setRedisCache = async (key: string, value: string) => {
     }
 };
 
-export const deleteCache = async (key: string) => {
+export const deleteRedisCache = async (key: string) => {
     if (isRedisWorking()) {
         try {
             return await client.del(key);
