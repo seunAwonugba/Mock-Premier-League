@@ -1,0 +1,38 @@
+{
+    "name": "mock_premier_league",
+    "version": "1.0.0",
+    "description": "Awonugba Seun Software Developer Application Test Solution (Mock Premier League)",
+    "main": "app.js",
+    "scripts": {
+        "build": "rimraf dist && npx tsc",
+        "prestart": "npm run build",
+        "start": "cross-env NODE_ENV=production node dist/app.js",
+        "predev": "npm run build",
+        "dev": "cross-env NODE_ENV=development concurrently \"npx tsc -w\" \"nodemon dist/app.js\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/seunAwonugba/Mock-Premier-League.git"
+    },
+    "author": "Awonugba Seun",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/seunAwonugba/Mock-Premier-League/issues"
+    },
+    "homepage": "https://github.com/seunAwonugba/Mock-Premier-League#readme",
+    "dependencies": {
+        "cross-env": "^7.0.3",
+        "dotenv": "^16.4.5",
+        "express": "^4.21.0",
+        "express-rate-limit": "^7.4.0",
+        "rimraf": "^6.0.1"
+    },
+    "devDependencies": {
+        "@types/express": "^5.0.0",
+        "@types/node": "^22.7.3",
+        "concurrently": "^9.0.1",
+        "nodemon": "^3.1.7",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.6.2"
+    }
+}
