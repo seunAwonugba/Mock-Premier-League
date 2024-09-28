@@ -1,17 +1,21 @@
+import { nanoid } from "nanoid";
 import {
     AWAY_TEAM_NOT_FOUND,
     FIXTURE_NOT_FOUND,
     HOME_TEAM_NOT_FOUND,
+    INVALID_LINK,
     SAME_TEAM,
 } from "../constant/constants";
 import { BadRequest } from "../error";
 import { FixtureRepository } from "../repository/fixture";
 import { TeamRepository } from "../repository/team";
+import { UrlRepository } from "../repository/url";
 
 export class FixtureService {
     constructor(
         private fixtureRepository: FixtureRepository,
-        private teamRepository: TeamRepository
+        private teamRepository: TeamRepository,
+        private urlRepository: UrlRepository
     ) {}
     async createFixture(payload: any) {
         const body = payload.schema;
@@ -86,6 +90,28 @@ export class FixtureService {
         );
         return fixtures;
     }
+    async getFixturesByStatus(status: string) {
+        const getFixtures = await this.fixtureRepository.getFixturesByStatus(
+            status
+        );
+        const fixtures = await Promise.all(
+            getFixtures.map(async (fixture) => {
+                const homeTeamId = fixture.homeTeamId;
+                const awayTeamId = fixture.awayTeamId;
+
+                const homeTeam = await this.teamRepository.getTeam(homeTeamId);
+
+                const awayTeam = await this.teamRepository.getTeam(awayTeamId);
+
+                return {
+                    fixture,
+                    homeTeam,
+                    awayTeam,
+                };
+            })
+        );
+        return fixtures;
+    }
     async getFixture(fixtureId: string) {
         const getTeam = await this.fixtureRepository.getFixture(fixtureId);
         if (!getTeam) {
@@ -100,5 +126,41 @@ export class FixtureService {
             getFixture.fixtureId
         );
         return deleteFixture;
+    }
+    async generateLink(fixtureId: string) {
+        //check if fixture exist originally
+        const getFixtureFromFixtureTable = await this.getFixture(fixtureId);
+
+        //check if fixture exist on url db
+        const getFixtureFromUrlTable =
+            await this.urlRepository.getUrlByFixtureId(
+                getFixtureFromFixtureTable.fixtureId
+            );
+
+        if (getFixtureFromUrlTable) {
+            return getFixtureFromUrlTable.uniqueUrl;
+        }
+        const uniqueCode = nanoid(6);
+        const originalUrl = `${process.env.BASE_URL}/fixture/${getFixtureFromFixtureTable.fixtureId}`;
+        const uniqueUrl = `${process.env.BASE_URL}/unique/${uniqueCode}`;
+
+        const urlPayload = {
+            originalUrl,
+            uniqueUrl,
+            fixtureId: getFixtureFromFixtureTable.fixtureId,
+            uniqueCode,
+        };
+        const createUrl = await this.urlRepository.createUrl(urlPayload);
+
+        return uniqueUrl;
+    }
+
+    async getFixtureUsingUniqueCode(uniqueCode: string) {
+        const getUrl = await this.urlRepository.getUrlByUniqueCode(uniqueCode);
+        if (!getUrl) {
+            throw new BadRequest(INVALID_LINK);
+        }
+
+        return getUrl;
     }
 }

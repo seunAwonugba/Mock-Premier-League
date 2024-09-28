@@ -4,10 +4,16 @@ import { FixtureRepository } from "../repository/fixture";
 import { FixtureService } from "../service/fixture";
 import { fixture } from "../validator/fixture";
 import { TeamRepository } from "../repository/team";
+import { UrlRepository } from "../repository/url";
 
 const fixtureRepository = new FixtureRepository();
 const teamRepository = new TeamRepository();
-const fixtureService = new FixtureService(fixtureRepository, teamRepository);
+const urlRepository = new UrlRepository();
+const fixtureService = new FixtureService(
+    fixtureRepository,
+    teamRepository,
+    urlRepository
+);
 
 export const createFixture = async (
     req: Request,
@@ -41,6 +47,26 @@ export const getFixtures = async (
 ) => {
     try {
         const getFixtures = await fixtureService.getFixtures();
+
+        return res.status(StatusCodes.OK).json({
+            statusCode: StatusCodes.OK,
+            success: true,
+            data: getFixtures,
+            message: ReasonPhrases.OK,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const getFixturesByStatus = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { status } = req.body;
+        const getFixtures = await fixtureService.getFixturesByStatus(status);
 
         return res.status(StatusCodes.OK).json({
             statusCode: StatusCodes.OK,
@@ -115,6 +141,48 @@ export const deleteFixture = async (
             statusCode: StatusCodes.OK,
             success: true,
             data: deleteFixture,
+            message: ReasonPhrases.OK,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const generateLink = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { id } = req.params;
+
+        const generateLink = await fixtureService.generateLink(id);
+
+        return res.status(StatusCodes.OK).json({
+            statusCode: StatusCodes.OK,
+            success: true,
+            data: generateLink,
+            message: ReasonPhrases.OK,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const getFixturesUsingUniqueLink = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { code } = req.params;
+        const generateFixture = await fixtureService.getFixtureUsingUniqueCode(
+            code
+        );
+        return res.status(StatusCodes.OK).json({
+            statusCode: StatusCodes.OK,
+            success: true,
+            data: generateFixture,
             message: ReasonPhrases.OK,
         });
     } catch (error) {

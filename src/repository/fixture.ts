@@ -6,8 +6,16 @@ export class FixtureRepository {
         return createTeam;
     }
     async getFixtures() {
-        const getTeams = await Fixture.findAll();
-        return getTeams;
+        const getFixtures = await Fixture.findAll();
+        return getFixtures;
+    }
+    async getFixturesByStatus(status: string) {
+        const fixtures = await Fixture.findAll({
+            where: {
+                status,
+            },
+        });
+        return fixtures;
     }
     async getFixture(fixtureId: string) {
         const getTeams = await Fixture.findOne({
