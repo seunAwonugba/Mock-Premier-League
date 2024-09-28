@@ -7,13 +7,16 @@
         "build": "rimraf dist && npx tsc",
         "prestart": "npm run build",
         "start": "cross-env NODE_ENV=production node dist/app.js",
+        "test": "cross-env NODE_ENV=test jest",
         "predev": "npm run build",
         "dev": "cross-env NODE_ENV=development concurrently \"npx tsc -w\" \"nodemon dist/app.js\"",
         "db:migrate": "npx sequelize-cli db:migrate",
         "db:migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
         "db:refresh:seed": "fresh migrate seed",
         "db:fresh:seed": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
-        "db:seed:all": "npx sequelize-cli db:seed:all"
+        "db:seed:all": "npx sequelize-cli db:seed:all",
+        "test:admin": "npm test -- admin.test.ts",
+        "test:team": "npm test -- team.test.ts"
     },
     "repository": {
         "type": "git",
@@ -47,16 +50,21 @@
         "uuid": "^10.0.0"
     },
     "devDependencies": {
+        "@jest/globals": "^29.7.0",
         "@types/bcryptjs": "^2.4.6",
         "@types/cors": "^2.8.17",
         "@types/express": "^4.17.21",
         "@types/express-session": "^1.18.0",
         "@types/jsonwebtoken": "^9.0.7",
         "@types/node": "^22.7.4",
+        "@types/supertest": "^6.0.2",
         "@types/uuid": "^10.0.0",
         "concurrently": "^9.0.1",
+        "jest": "^29.7.0",
         "nodemon": "^3.1.7",
         "sequelize-cli": "^6.6.2",
+        "supertest": "^7.0.0",
+        "ts-jest": "^29.2.5",
         "ts-node": "^10.9.2",
         "typescript": "^5.6.2"
     }
