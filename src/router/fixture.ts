@@ -16,7 +16,7 @@ fixture.post("/", adminAuth, createFixture);
 fixture.get("/", getFixtures);
 fixture.post("/status", userAuth, getFixturesByStatus);
 fixture.patch("/:id", adminAuth, updateFixture);
-fixture.get("/:id", getFixture);
+// fixture.get("/:id", getFixture);
 fixture.get("/:id/admin", adminAuth, getFixture);
 fixture.get("/:id/user", userAuth, getFixture);
 fixture.get("/:id/link", adminAuth, generateLink);

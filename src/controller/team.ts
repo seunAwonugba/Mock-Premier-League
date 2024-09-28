@@ -3,6 +3,7 @@ import { StatusCodes, ReasonPhrases } from "http-status-codes";
 import { TeamRepository } from "../repository/team";
 import { TeamService } from "../service/team";
 import { team } from "../validator/team";
+import { buildQueryObject } from "../helper/buildQueryObject";
 const teamRepository = new TeamRepository();
 const teamService = new TeamService(teamRepository);
 
@@ -37,7 +38,12 @@ export const getTeams = async (
     next: NextFunction
 ) => {
     try {
-        const getTeams = await teamService.getTeams();
+        const { search } = req.query;
+
+        const queryBuilder = buildQueryObject({
+            search,
+        });
+        const getTeams = await teamService.getTeams(queryBuilder);
 
         return res.status(StatusCodes.OK).json({
             statusCode: StatusCodes.OK,
@@ -81,7 +87,7 @@ export const getTeam = async (
     req: Request,
     res: Response,
     next: NextFunction
-) => {    
+) => {
     try {
         const { id } = req.params;
 

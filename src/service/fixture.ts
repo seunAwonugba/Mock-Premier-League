@@ -10,6 +10,7 @@ import { BadRequest } from "../error";
 import { FixtureRepository } from "../repository/fixture";
 import { TeamRepository } from "../repository/team";
 import { UrlRepository } from "../repository/url";
+import { QueryObjectInterface } from "../helper/buildQueryObject";
 
 export class FixtureService {
     constructor(
@@ -70,7 +71,7 @@ export class FixtureService {
         );
         return updateTeam;
     }
-    async getFixtures() {
+    async getFixtures(queryObjectInterface: QueryObjectInterface) {
         const getFixtures = await this.fixtureRepository.getFixtures();
         const fixtures = await Promise.all(
             getFixtures.map(async (fixture) => {
@@ -88,6 +89,19 @@ export class FixtureService {
                 };
             })
         );
+
+        if (queryObjectInterface.search) {
+            const searchQuery = queryObjectInterface.search.toLowerCase();
+            return fixtures.filter(
+                (fixtureData) =>
+                    fixtureData.homeTeam?.name
+                        .toLowerCase()
+                        .includes(searchQuery) ||
+                    fixtureData.awayTeam?.name
+                        .toLowerCase()
+                        .includes(searchQuery)
+            );
+        }
         return fixtures;
     }
     async getFixturesByStatus(status: string) {

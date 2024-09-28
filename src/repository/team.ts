@@ -1,3 +1,5 @@
+import { Op } from "sequelize";
+import { QueryObjectInterface } from "../helper/buildQueryObject";
 import Team from "../models/team";
 
 export class TeamRepository {
@@ -5,8 +7,28 @@ export class TeamRepository {
         const createTeam = await Team.create(team);
         return createTeam;
     }
-    async getTeams() {
-        const getTeams = await Team.findAll();
+    async getTeams(queryObjectInterface: QueryObjectInterface) {
+        console.log(queryObjectInterface);
+
+        const { search } = queryObjectInterface;
+
+        let whereClause: any = {};
+
+        if (search) {
+            whereClause = {
+                [Op.or]: [
+                    {
+                        name: {
+                            [Op.iLike]: `%` + search + `%`,
+                        },
+                    },
+                ],
+            };
+        }
+
+        const getTeams = await Team.findAll({
+            where: whereClause,
+        });
         return getTeams;
     }
     async getTeam(teamId: string) {

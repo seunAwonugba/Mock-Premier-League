@@ -11,7 +11,7 @@ import {
 const team = express.Router();
 
 team.post("/", adminAuth, createTeam);
-team.get("/", adminAuth, getTeams);
+team.get("/", getTeams);
 team.patch("/:id", adminAuth, updateTeam);
 team.get("/:id", adminAuth, getTeam);
 team.delete("/:id", adminAuth, deleteTeam);

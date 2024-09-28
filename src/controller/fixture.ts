@@ -5,6 +5,7 @@ import { FixtureService } from "../service/fixture";
 import { fixture } from "../validator/fixture";
 import { TeamRepository } from "../repository/team";
 import { UrlRepository } from "../repository/url";
+import { buildQueryObject } from "../helper/buildQueryObject";
 
 const fixtureRepository = new FixtureRepository();
 const teamRepository = new TeamRepository();
@@ -46,7 +47,13 @@ export const getFixtures = async (
     next: NextFunction
 ) => {
     try {
-        const getFixtures = await fixtureService.getFixtures();
+        const { search } = req.query;
+
+        const queryBuilder = buildQueryObject({
+            search,
+        });
+
+        const getFixtures = await fixtureService.getFixtures(queryBuilder);
 
         return res.status(StatusCodes.OK).json({
             statusCode: StatusCodes.OK,
@@ -161,7 +168,9 @@ export const generateLink = async (
         return res.status(StatusCodes.OK).json({
             statusCode: StatusCodes.OK,
             success: true,
-            data: generateLink,
+            data: {
+                uniqueLink: generateLink,
+            },
             message: ReasonPhrases.OK,
         });
     } catch (error) {

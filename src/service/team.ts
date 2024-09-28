@@ -1,5 +1,6 @@
 import { TEAM_NOT_FOUND } from "../constant/constants";
 import { BadRequest } from "../error";
+import { QueryObjectInterface } from "../helper/buildQueryObject";
 import { TeamRepository } from "../repository/team";
 
 export class TeamService {
@@ -20,8 +21,8 @@ export class TeamService {
         );
         return updateTeam;
     }
-    async getTeams() {
-        const getTeams = await this.teamRepository.getTeams();
+    async getTeams(queryObjectInterface: QueryObjectInterface) {
+        const getTeams = await this.teamRepository.getTeams(queryObjectInterface);
         return getTeams;
     }
     async getTeam(teamId: string) {
