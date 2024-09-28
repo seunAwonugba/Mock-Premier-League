@@ -1,6 +1,15 @@
 export const NAME_REQUIRED = "Name is required";
 export const NAME_NOT_NULL = "Name cannot be null";
 export const NAME_NOT_EMPTY = "Name cannot be empty";
+export const HOME_TEAM_REQUIRED = "Home team is required";
+export const HOME_TEAM_NOT_NULL = "Home team cannot be null";
+export const HOME_TEAM_NOT_EMPTY = "Home team cannot be empty";
+export const AWAY_TEAM_REQUIRED = "Away team is required";
+export const AWAY_TEAM_NOT_NULL = "Away team cannot be null";
+export const AWAY_TEAM_NOT_EMPTY = "Away team cannot be empty";
+export const STATUS_REQUIRED = "Status is required";
+export const STATUS_NOT_NULL = "Status cannot be null";
+export const STATUS_NOT_EMPTY = "Status cannot be empty";
 export const PASSWORD_REQUIRED = "Password is required";
 export const PASSWORD_NOT_NULL = "Password cannot be null";
 export const PASSWORD_NOT_EMPTY = "Password cannot be empty";
@@ -30,3 +39,13 @@ export const UNKNOWN_ERROR = "Unknown error occurred";
 export const UNIQUE_ERROR = "SequelizeUniqueConstraintError";
 export const WRONG_CREDENTIALS =
     "Incorrect email or password. Please double-check and try again";
+export const AUTH_TOKEN_REQUIRED = "Access token is required for this route";
+export const TOKEN_REQUIRED = "Token is required";
+export const AUTH_TOKEN_EXPIRED =
+    "Access token has expired, please login again";
+export const TEAM_NOT_FOUND = "Team not found";
+export const SEQUELIZE_DATABASE_ERROR = "SequelizeDatabaseError";
+export const COMPLETED = "COMPLETED";
+export const PENDING = "PENDING";
+export const LIVE = "LIVE";
+export const INVALID_MATCH_STATUS = "Invalid match status";

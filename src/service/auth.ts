@@ -3,7 +3,6 @@ import { BadRequest } from "../error";
 import { compareHashData } from "../helper";
 import { AdminRepository } from "../repository/admin";
 import { UserRepository } from "../repository/user";
-import { generateAccessToken, generateRefreshToken } from "../utils/token";
 
 export class AuthService {
     constructor(

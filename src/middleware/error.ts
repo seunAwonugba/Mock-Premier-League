@@ -1,7 +1,12 @@
 import { CustomErrorHandler } from "../error";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { Request, Response, NextFunction } from "express";
-import { UNIQUE_ERROR, UNKNOWN_ERROR } from "../constant/constants";
+import {
+    SEQUELIZE_DATABASE_ERROR,
+    UNIQUE_ERROR,
+    UNKNOWN_ERROR,
+} from "../constant/constants";
+import { JsonWebTokenError } from "jsonwebtoken";
 
 export const error = (
     err: any,
@@ -9,8 +14,6 @@ export const error = (
     res: Response,
     next: NextFunction
 ) => {
-    // console.log(err);
-
     if (err.isJoi == true) {
         return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
             statusCode: StatusCodes.UNPROCESSABLE_ENTITY,
@@ -27,9 +30,25 @@ export const error = (
         });
     }
 
+    if (err.name == SEQUELIZE_DATABASE_ERROR) {
+        return res.status(StatusCodes.NOT_ACCEPTABLE).json({
+            statusCode: StatusCodes.NOT_ACCEPTABLE,
+            success: false,
+            message: err.message,
+        });
+    }
+
     if (err instanceof CustomErrorHandler) {
         return res.status(err.statusCode).json({
             statusCode: err.statusCode,
+            success: false,
+            message: err.message,
+        });
+    }
+
+    if (err instanceof JsonWebTokenError) {
+        return res.status(StatusCodes.UNAUTHORIZED).json({
+            statusCode: StatusCodes.UNAUTHORIZED,
             success: false,
             message: err.message,
         });

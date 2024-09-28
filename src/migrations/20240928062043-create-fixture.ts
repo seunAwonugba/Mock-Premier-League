@@ -3,81 +3,72 @@
 import { DataTypes, QueryInterface } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
 import {
-    EMAIL_NOT_NULL,
-    EMAIL_REQUIRED,
-    FIRST_NAME_NOT_NULL,
-    FIRST_NAME_REQUIRED,
-    LAST_NAME_NOT_NULL,
-    LAST_NAME_REQUIRED,
-    PASSWORD_NOT_NULL,
-    PASSWORD_REQUIRED,
-    VALID_EMAIL,
+    AWAY_TEAM_NOT_NULL,
+    AWAY_TEAM_REQUIRED,
+    COMPLETED,
+    HOME_TEAM_NOT_NULL,
+    HOME_TEAM_REQUIRED,
+    INVALID_MATCH_STATUS,
+    LIVE,
+    PENDING,
+    STATUS_NOT_NULL,
+    STATUS_REQUIRED,
 } from "../constant/constants";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface: QueryInterface) {
-        await queryInterface.createTable("users", {
+        await queryInterface.createTable("fixtures", {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },
-            userId: {
+            fixturesId: {
                 type: DataTypes.UUID,
                 allowNull: false,
                 defaultValue: () => uuidv4(),
             },
-            firstName: {
+            homeTeamId: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 validate: {
                     notEmpty: {
-                        msg: FIRST_NAME_REQUIRED,
+                        msg: HOME_TEAM_REQUIRED,
                     },
                     notNull: {
-                        msg: FIRST_NAME_NOT_NULL,
+                        msg: HOME_TEAM_NOT_NULL,
                     },
                 },
             },
-            lastName: {
+            awayTeamId: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 validate: {
                     notEmpty: {
-                        msg: LAST_NAME_REQUIRED,
+                        msg: AWAY_TEAM_REQUIRED,
                     },
                     notNull: {
-                        msg: LAST_NAME_NOT_NULL,
+                        msg: AWAY_TEAM_NOT_NULL,
                     },
                 },
             },
-            email: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                unique: true,
-                validate: {
-                    notEmpty: {
-                        msg: EMAIL_REQUIRED,
-                    },
-                    notNull: {
-                        msg: EMAIL_NOT_NULL,
-                    },
-                    isEmail: {
-                        msg: VALID_EMAIL,
-                    },
-                },
-            },
-            password: {
+            status: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 validate: {
                     notEmpty: {
-                        msg: PASSWORD_REQUIRED,
+                        msg: STATUS_REQUIRED,
                     },
                     notNull: {
-                        msg: PASSWORD_NOT_NULL,
+                        msg: STATUS_NOT_NULL,
+                    },
+                    validate: {
+                        isIn: {
+                            args: [[COMPLETED, PENDING, LIVE]],
+                            msg: INVALID_MATCH_STATUS,
+                        },
                     },
                 },
             },
@@ -92,6 +83,6 @@ module.exports = {
         });
     },
     async down(queryInterface: QueryInterface) {
-        await queryInterface.dropTable("users");
+        await queryInterface.dropTable("fixtures");
     },
 };

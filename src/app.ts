@@ -8,6 +8,8 @@ import session from "express-session";
 import { auth } from "./router/auth";
 import { error } from "./middleware/error";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
+import { team } from "./router/team";
+import { users } from "./router/users";
 const app = express();
 
 const { PORT, HOST, SESSION_SECRET, SESSION_NAME } = process.env;
@@ -21,6 +23,8 @@ app.use(express.json());
 app.set("trust proxy", 1); // trust first proxy
 
 app.use("/api/v1/auth", auth);
+app.use("/api/v1/team", team);
+app.use("/api/v1/users", users);
 
 app.use("*", (req, res) => {
     return res.status(StatusCodes.NOT_FOUND).json({
