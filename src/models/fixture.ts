@@ -28,7 +28,7 @@ class Fixture extends Model<
     InferCreationAttributes<Fixture>
 > {
     declare id: CreationOptional<number>;
-    declare fixturesId: string;
+    declare fixtureId: string;
     declare homeTeamId: string;
     declare awayTeamId: string;
     declare status: string;
@@ -52,7 +52,7 @@ Fixture.init(
             autoIncrement: true,
             primaryKey: true,
         },
-        fixturesId: {
+        fixtureId: {
             type: DataTypes.UUID,
             allowNull: false,
             defaultValue: () => uuidv4(),
@@ -84,18 +84,11 @@ Fixture.init(
         status: {
             type: DataTypes.STRING,
             allowNull: false,
+            defaultValue: PENDING,
             validate: {
-                notEmpty: {
-                    msg: STATUS_REQUIRED,
-                },
-                notNull: {
-                    msg: STATUS_NOT_NULL,
-                },
-                validate: {
-                    isIn: {
-                        args: [[COMPLETED, PENDING, LIVE]],
-                        msg: INVALID_MATCH_STATUS,
-                    },
+                isIn: {
+                    args: [[COMPLETED, PENDING, LIVE]],
+                    msg: INVALID_MATCH_STATUS,
                 },
             },
         },

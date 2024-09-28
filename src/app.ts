@@ -10,6 +10,7 @@ import { error } from "./middleware/error";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { team } from "./router/team";
 import { users } from "./router/users";
+import { fixture } from "./router/fixture";
 const app = express();
 
 const { PORT, HOST, SESSION_SECRET, SESSION_NAME } = process.env;
@@ -25,6 +26,7 @@ app.set("trust proxy", 1); // trust first proxy
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/team", team);
 app.use("/api/v1/users", users);
+app.use("/api/v1/fixture", fixture);
 
 app.use("*", (req, res) => {
     return res.status(StatusCodes.NOT_FOUND).json({

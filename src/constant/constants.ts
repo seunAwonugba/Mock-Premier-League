@@ -44,8 +44,12 @@ export const TOKEN_REQUIRED = "Token is required";
 export const AUTH_TOKEN_EXPIRED =
     "Access token has expired, please login again";
 export const TEAM_NOT_FOUND = "Team not found";
+export const FIXTURE_NOT_FOUND = "Fixture not found";
 export const SEQUELIZE_DATABASE_ERROR = "SequelizeDatabaseError";
 export const COMPLETED = "COMPLETED";
 export const PENDING = "PENDING";
 export const LIVE = "LIVE";
 export const INVALID_MATCH_STATUS = "Invalid match status";
+export const HOME_TEAM_NOT_FOUND = "Home team not found";
+export const AWAY_TEAM_NOT_FOUND = "Away team not found";
+export const SAME_TEAM = "Cant set fixtures between same team";

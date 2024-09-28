@@ -25,7 +25,7 @@ module.exports = {
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },
-            fixturesId: {
+            fixtureId: {
                 type: DataTypes.UUID,
                 allowNull: false,
                 defaultValue: () => uuidv4(),
@@ -57,18 +57,11 @@ module.exports = {
             status: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                defaultValue: PENDING,
                 validate: {
-                    notEmpty: {
-                        msg: STATUS_REQUIRED,
-                    },
-                    notNull: {
-                        msg: STATUS_NOT_NULL,
-                    },
-                    validate: {
-                        isIn: {
-                            args: [[COMPLETED, PENDING, LIVE]],
-                            msg: INVALID_MATCH_STATUS,
-                        },
+                    isIn: {
+                        args: [[COMPLETED, PENDING, LIVE]],
+                        msg: INVALID_MATCH_STATUS,
                     },
                 },
             },
