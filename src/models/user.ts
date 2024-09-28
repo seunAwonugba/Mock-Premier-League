@@ -7,6 +7,8 @@ import {
     CreationOptional,
 } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
+import bcryptjs from "bcryptjs";
+
 import sequelize from ".";
 import {
     FIRST_NAME_REQUIRED,
@@ -41,6 +43,11 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
      * The `models/index` file will call this method automatically.
      */
     static associations: {};
+
+    toJSON() {
+        const { password, ...values } = this.get() as { password?: string };
+        return values;
+    }
 }
 User.init(
     {
@@ -116,6 +123,26 @@ User.init(
         sequelize: sequelize!,
         tableName: "users",
         modelName: "user",
+        hooks: {
+            beforeCreate: async (user: User) => {
+                if (user.password) {
+                    user.password = await bcryptjs.hash(
+                        user.password,
+                        Number(process.env.BCRYPTJS_SALT)
+                    );
+                }
+            },
+            beforeUpdate: async (user: User) => {
+                if (user.password) {
+                    if (user.changed("password")) {
+                        user.password = await bcryptjs.hash(
+                            user.password,
+                            Number(process.env.BCRYPTJS_SALT)
+                        );
+                    }
+                }
+            },
+        },
     }
 );
 export default User;

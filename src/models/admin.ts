@@ -9,6 +9,7 @@ import {
 } from "sequelize";
 import sequelize from ".";
 import { v4 as uuidv4 } from "uuid";
+import bcryptjs from "bcryptjs";
 
 import {
     NAME_REQUIRED,
@@ -44,6 +45,11 @@ class Admin extends Model<
     static associations: {
         // define association here
     };
+
+    toJSON() {
+        const { password, ...values } = this.get() as { password?: string };
+        return values;
+    }
 }
 Admin.init(
     {
@@ -107,6 +113,26 @@ Admin.init(
         sequelize: sequelize!,
         tableName: "admins",
         modelName: "admin",
+        hooks: {
+            beforeCreate: async (admin: Admin) => {
+                if (admin.password) {
+                    admin.password = await bcryptjs.hash(
+                        admin.password,
+                        Number(process.env.BCRYPTJS_SALT)
+                    );
+                }
+            },
+            beforeUpdate: async (admin: Admin) => {
+                if (admin.password) {
+                    if (admin.changed("password")) {
+                        admin.password = await bcryptjs.hash(
+                            admin.password,
+                            Number(process.env.BCRYPTJS_SALT)
+                        );
+                    }
+                }
+            },
+        },
     }
 );
 export default Admin;

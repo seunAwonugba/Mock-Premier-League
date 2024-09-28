@@ -8,8 +8,6 @@ import {
     NAME_REQUIRED,
     PASSWORD_NOT_NULL,
     PASSWORD_REQUIRED,
-    UNIQUE_EMAIL,
-    UNIQUE_EMAIL_CODE,
     VALID_EMAIL,
 } from "../constant/constants";
 
@@ -43,10 +41,7 @@ module.exports = {
             email: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                unique: {
-                    name: UNIQUE_EMAIL_CODE,
-                    msg: UNIQUE_EMAIL,
-                },
+                unique: true,
                 validate: {
                     notEmpty: {
                         msg: EMAIL_REQUIRED,

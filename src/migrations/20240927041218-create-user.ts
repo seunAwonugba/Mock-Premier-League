@@ -58,10 +58,7 @@ module.exports = {
             email: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                unique: {
-                    name: UNIQUE_EMAIL_CODE,
-                    msg: UNIQUE_EMAIL,
-                },
+                unique: true,
                 validate: {
                     notEmpty: {
                         msg: EMAIL_REQUIRED,

@@ -26,6 +26,7 @@
     },
     "homepage": "https://github.com/seunAwonugba/Mock-Premier-League#readme",
     "dependencies": {
+        "bcryptjs": "^2.4.3",
         "connect-redis": "^7.1.1",
         "cors": "^2.8.5",
         "cross-env": "^7.0.3",
@@ -33,6 +34,9 @@
         "express": "^4.21.0",
         "express-rate-limit": "^7.4.0",
         "express-session": "^1.18.0",
+        "http-status-codes": "^2.3.0",
+        "joi": "^17.13.3",
+        "jsonwebtoken": "^9.0.2",
         "pg": "^8.13.0",
         "pg-hstore": "^2.3.4",
         "redis": "^4.7.0",
@@ -41,10 +45,12 @@
         "uuid": "^10.0.0"
     },
     "devDependencies": {
+        "@types/bcryptjs": "^2.4.6",
         "@types/cors": "^2.8.17",
-        "@types/express": "^5.0.0",
+        "@types/express": "^4.17.21",
         "@types/express-session": "^1.18.0",
-        "@types/node": "^22.7.3",
+        "@types/jsonwebtoken": "^9.0.7",
+        "@types/node": "^22.7.4",
         "@types/uuid": "^10.0.0",
         "concurrently": "^9.0.1",
         "nodemon": "^3.1.7",
