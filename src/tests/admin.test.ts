@@ -1,7 +1,7 @@
 import { beforeEach, describe, it, expect, afterAll } from "@jest/globals";
-import sequelize from "../src/models";
+import sequelize from "../models";
 import request from "supertest";
-import { app } from "../src/app";
+import { app } from "../app";
 import { StatusCodes } from "http-status-codes";
 
 beforeEach(async () => {

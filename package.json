@@ -2,7 +2,7 @@
     "name": "mock_premier_league",
     "version": "1.0.0",
     "description": "Awonugba Seun Software Developer Application Test Solution (Mock Premier League)",
-    "main": "app.js",
+    "main": "src/app.ts",
     "scripts": {
         "build": "rimraf dist && npx tsc",
         "prestart": "npm run build",
@@ -16,7 +16,8 @@
         "db:fresh:seed": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
         "db:seed:all": "npx sequelize-cli db:seed:all",
         "test:admin": "npm test -- admin.test.ts",
-        "test:team": "npm test -- team.test.ts"
+        "test:team": "npm test -- team.test.ts",
+        "test:fixture": "npm test -- fixture.test.ts"
     },
     "repository": {
         "type": "git",

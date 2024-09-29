@@ -8,8 +8,6 @@ export class TeamRepository {
         return createTeam;
     }
     async getTeams(queryObjectInterface: QueryObjectInterface) {
-        console.log(queryObjectInterface);
-
         const { search } = queryObjectInterface;
 
         let whereClause: any = {};
