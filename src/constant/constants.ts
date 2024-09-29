@@ -71,4 +71,4 @@ export const INVALID_MATCH_STATUS = "Invalid match status";
 export const HOME_TEAM_NOT_FOUND = "Home team not found";
 export const AWAY_TEAM_NOT_FOUND = "Away team not found";
 export const SAME_TEAM = "Cant set fixtures between same team";
-export const REDIS_CACHE_TIME = 900; // 15 min
+export const REDIS_LONG_TERM_CACHE_TIME = 604800; // 7 days

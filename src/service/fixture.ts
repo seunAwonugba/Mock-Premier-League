@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import {
     AWAY_TEAM_NOT_FOUND,
+    COMPLETED,
     FIXTURE_NOT_FOUND,
     HOME_TEAM_NOT_FOUND,
     INVALID_LINK,
@@ -11,6 +12,7 @@ import { FixtureRepository } from "../repository/fixture";
 import { TeamRepository } from "../repository/team";
 import { UrlRepository } from "../repository/url";
 import { QueryObjectInterface } from "../helper/buildQueryObject";
+import { longTermCache } from "../redis";
 
 export class FixtureService {
     constructor(
@@ -105,6 +107,35 @@ export class FixtureService {
         return fixtures;
     }
     async getFixturesByStatus(status: string) {
+
+        if (status == COMPLETED) {
+            const fixtures = await longTermCache(status, async () => {
+                const getFixtures =
+                    await this.fixtureRepository.getFixturesByStatus(status);
+                const fixtures = await Promise.all(
+                    getFixtures.map(async (fixture) => {
+                        const homeTeamId = fixture.homeTeamId;
+                        const awayTeamId = fixture.awayTeamId;
+
+                        const homeTeam = await this.teamRepository.getTeam(
+                            homeTeamId
+                        );
+
+                        const awayTeam = await this.teamRepository.getTeam(
+                            awayTeamId
+                        );
+
+                        return {
+                            fixture,
+                            homeTeam,
+                            awayTeam,
+                        };
+                    })
+                );
+                return fixtures;
+            });
+            return fixtures;
+        }
         const getFixtures = await this.fixtureRepository.getFixturesByStatus(
             status
         );
