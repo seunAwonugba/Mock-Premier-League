@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { StatusCodes, ReasonPhrases } from "http-status-codes";
 import { FixtureRepository } from "../repository/fixture";
 import { FixtureService } from "../service/fixture";
-import { fixture } from "../validator/fixture";
+import { fixture, updateFixtureSchema } from "../validator/fixture";
 import { TeamRepository } from "../repository/team";
 import { UrlRepository } from "../repository/url";
 import { buildQueryObject } from "../helper/buildQueryObject";
@@ -94,7 +94,7 @@ export const updateFixture = async (
     try {
         const body = req.body;
         const { id } = req.params;
-        const schema = await fixture.validateAsync(body);
+        const schema = await updateFixtureSchema.validateAsync(body);
         const payload = {
             schema,
             id,

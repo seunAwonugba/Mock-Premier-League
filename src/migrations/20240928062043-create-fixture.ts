@@ -6,13 +6,13 @@ import {
     AWAY_TEAM_NOT_NULL,
     AWAY_TEAM_REQUIRED,
     COMPLETED,
+    FIXTURE_DATE_NOT_NULL,
+    FIXTURE_DATE_REQUIRED,
     HOME_TEAM_NOT_NULL,
     HOME_TEAM_REQUIRED,
     INVALID_MATCH_STATUS,
     LIVE,
     PENDING,
-    STATUS_NOT_NULL,
-    STATUS_REQUIRED,
 } from "../constant/constants";
 
 /** @type {import('sequelize-cli').Migration} */
@@ -64,6 +64,28 @@ module.exports = {
                         msg: INVALID_MATCH_STATUS,
                     },
                 },
+            },
+            date: {
+                type: DataTypes.DATE,
+                allowNull: false,
+                validate: {
+                    notEmpty: {
+                        msg: FIXTURE_DATE_REQUIRED,
+                    },
+                    notNull: {
+                        msg: FIXTURE_DATE_NOT_NULL,
+                    },
+                },
+            },
+            homeTeamScore: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue: "0",
+            },
+            awayTeamScore: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue: "0",
             },
             createdAt: {
                 allowNull: false,

@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import { RedisClientType, createClient } from "redis";
+import { REDIS_CACHE_TIME } from "../constant/constants";
 
 export let client: RedisClientType;
 
@@ -57,4 +58,18 @@ export const setWithExpiry = async (key: any, value: any, expiry: any) => {
             return await client.set(key, value, "EX", expiry);
         } catch (error) {}
     }
+};
+
+const apiCache = async (key: any, callback: () => Promise<any>) => {
+    const getCache = await getRedisCache(key);
+
+    if (getCache != null) {
+        return JSON.parse(getCache);
+    }
+
+    const request = await callback();
+
+    await setWithExpiry(key, JSON.stringify(request), REDIS_CACHE_TIME);
+
+    return request;
 };

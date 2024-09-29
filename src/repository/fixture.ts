@@ -1,4 +1,3 @@
-import { QueryObjectInterface } from "../helper/buildQueryObject";
 import Fixture from "../models/fixture";
 
 export class FixtureRepository {

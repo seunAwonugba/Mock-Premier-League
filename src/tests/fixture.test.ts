@@ -49,7 +49,7 @@ describe("team", () => {
             .send({
                 homeTeamId,
                 awayTeamId,
-                status: COMPLETED,
+                date: new Date(),
             })
             .set("Authorization", `Bearer ${adminAuthToken}`); // Set the token in the Authorization header
         fixtureId = response.body.data.fixtureId;
@@ -83,7 +83,7 @@ describe("team", () => {
             .send({
                 homeTeamId,
                 awayTeamId: homeTeamId,
-                status: COMPLETED,
+                date: new Date(),
             })
             .set("Authorization", `Bearer ${adminAuthToken}`); // Set the token in the Authorization header
 

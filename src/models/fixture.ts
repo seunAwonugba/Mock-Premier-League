@@ -15,12 +15,12 @@ import {
     HOME_TEAM_NOT_NULL,
     AWAY_TEAM_REQUIRED,
     AWAY_TEAM_NOT_NULL,
-    STATUS_REQUIRED,
-    STATUS_NOT_NULL,
     COMPLETED,
     PENDING,
     LIVE,
     INVALID_MATCH_STATUS,
+    FIXTURE_DATE_REQUIRED,
+    FIXTURE_DATE_NOT_NULL,
 } from "../constant/constants";
 
 class Fixture extends Model<
@@ -32,6 +32,9 @@ class Fixture extends Model<
     declare homeTeamId: string;
     declare awayTeamId: string;
     declare status: string;
+    declare homeTeamScore: string;
+    declare awayTeamScore: string;
+    declare date: Date;
 
     // timestamps!
     // createdAt can be undefined during creation
@@ -91,6 +94,28 @@ Fixture.init(
                     msg: INVALID_MATCH_STATUS,
                 },
             },
+        },
+        date: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: FIXTURE_DATE_REQUIRED,
+                },
+                notNull: {
+                    msg: FIXTURE_DATE_NOT_NULL,
+                },
+            },
+        },
+        homeTeamScore: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: "0",
+        },
+        awayTeamScore: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: "0",
         },
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE,
