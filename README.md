@@ -91,3 +91,9 @@ docker-compose up --build
 ```bash
 npm test
 ```
+
+## Postman Documentation
+
+```bash
+https://documenter.getpostman.com/view/17083552/2sAXqzYeaa
+```
