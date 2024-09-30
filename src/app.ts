@@ -32,6 +32,14 @@ app.use("/api/v1/admin", admin);
 app.use("/api/v1/fixture", fixture);
 app.use("/api/v1/unique", unique);
 
+app.get("/", (req, res) => {
+    return res.status(StatusCodes.OK).json({
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: ReasonPhrases.OK,
+    });
+});
+
 app.use("*", (req, res) => {
     return res.status(StatusCodes.NOT_FOUND).json({
         statusCode: StatusCodes.NOT_FOUND,
@@ -48,7 +56,6 @@ const startServer = async () => {
             "⚡️[database]: Database connection has been established successfully."
         );
         const redisClient = await initializeRedisClient();
-
         // provides Redis session storage for Express
         const redisStore = new RedisStore({
             client: redisClient,
