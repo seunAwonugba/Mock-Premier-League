@@ -39,6 +39,7 @@
         "express": "^4.21.0",
         "express-rate-limit": "^7.4.0",
         "express-session": "^1.18.0",
+        "fresh_sequelize": "^1.0.2",
         "http-status-codes": "^2.3.0",
         "joi": "^17.13.3",
         "jsonwebtoken": "^9.0.2",
