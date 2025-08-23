@@ -1,4 +1,4 @@
-name: GitHub Actions
+name: GitHub Actions On Mock PL App
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
